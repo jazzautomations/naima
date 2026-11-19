@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<style>
+  :root {
+    --fundo: #111111;      /* troque pela cor da marca */
+    --texto: #f5f1e8;
+    --acento: #ff5a1f;
+    --fonte-titulo: "Archivo Black", "Arial Black", sans-serif;
+    --fonte-corpo: "IBM Plex Sans", "Helvetica Neue", sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1080px; height: 1350px; }
+  body { background: var(--fundo); color: var(--texto); font-family: var(--fonte-corpo);
+         padding: 96px 88px; display: flex; flex-direction: column; }
+  .tag { font-size: 30px; letter-spacing: .12em; text-transform: uppercase; color: var(--acento); }
+  h1 { font-family: var(--fonte-titulo); font-size: 104px; line-height: 1.02; margin-top: 40px; text-wrap: balance; }
+  p { font-size: 44px; line-height: 1.32; margin-top: 44px; max-width: 22em; }
+  .fonte { font-size: 24px; opacity: .6; margin-top: 28px; }
+  footer { margin-top: auto; display: flex; justify-content: space-between; font-size: 28px; opacity: .8; }
+</style>
+<body>
+  <div class="tag">CATEGORIA</div>
+  <h1>Título do card em poucas palavras</h1>
+  <p>Duas ou três linhas que desenvolvem o ponto, na voz do dono.</p>
+  <div class="fonte">Fonte: nome da fonte, ano</div>
+  <footer><span>@perfil</span><span>01/07</span></footer>
+</body>
+</html>

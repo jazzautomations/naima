@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# naima-segredo: único caminho da Naima até o .env. Nunca imprime valor.
+#   naima-segredo listar            nomes guardados
+#   naima-segredo tem NOME          sai 0 se existe e não está vazio
+#   naima-segredo guardar NOME      lê o valor do stdin (ou do 3º argumento)
+#   naima-segredo remover NOME
+set -euo pipefail
+ARQ="${HERMES_HOME:-$HOME/.hermes}/.env"
+touch "$ARQ"; chmod 600 "$ARQ"
+acao="${1:-}"; nome="${2:-}"
+valida() { [[ "$nome" =~ ^[A-Z][A-Z0-9_]{1,63}$ ]] || { echo "nome inválido: use MAIUSCULAS_COM_SUBLINHADO" >&2; exit 2; }; }
+case "$acao" in
+  listar) grep -oE '^[A-Z][A-Z0-9_]*=.' "$ARQ" | sed 's/=.$//' | sort ;;
+  tem) valida; if grep -qE "^${nome}=.+" "$ARQ"; then echo "sim: $nome está guardado"; else echo "não: $nome não existe"; exit 1; fi ;;
+  guardar)
+    valida
+    if [ $# -ge 3 ]; then valor="$3"; else IFS= read -r valor; fi
+    [ -n "$valor" ] || { echo "valor vazio" >&2; exit 2; }
+    case "$valor" in *$'\n'*) echo "valor com quebra de linha" >&2; exit 2 ;; esac
+    tmp="$(mktemp "${ARQ}.XXXXXX")"; chmod 600 "$tmp"
+    grep -vE "^${nome}=" "$ARQ" > "$tmp" || true
+    printf '%s=%s\n' "$nome" "$valor" >> "$tmp"
+    mv "$tmp" "$ARQ"
+    echo "guardado: $nome (${#valor} caracteres)" ;;
+  remover) valida; tmp="$(mktemp "${ARQ}.XXXXXX")"; chmod 600 "$tmp"; grep -vE "^${nome}=" "$ARQ" > "$tmp" || true; mv "$tmp" "$ARQ"; echo "removido: $nome" ;;
+  *) sed -n '2,6p' "$0" | sed 's/^# \{0,1\}//'; exit 2 ;;
+esac
