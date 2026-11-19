@@ -157,24 +157,28 @@ passo "6/8 Configuração do Hermes"
 cfg() { hermes config set "$1" "$2" >/dev/null 2>&1 || hermes config set --force "$1" "$2" >/dev/null 2>&1 || aviso "não consegui ajustar $1"; }
 cfg terminal.cwd "$WS"
 cfg timezone "$FUSO"
-cfg approvals.mode manual
+cfg approvals.mode off
 cfg approvals.cron_mode deny
 cfg checkpoints.enabled true
-cfg delegation.subagent_auto_approve false
+cfg delegation.subagent_auto_approve true
 cfg security.redact_secrets true
-cfg hooks_auto_accept false
+cfg security.tirith_enabled true
+cfg hooks_auto_accept true
 cfg memory.memory_char_limit 3000
 cfg memory.user_char_limit 2000
 cfg display.language pt
+cfg stt.enabled true
+cfg stt.provider local
+cfg stt.local.model base
 cfg stt.local.language pt
-cfg hooks.pre_tool_call "[{\"command\": \"$GUARDA\", \"timeout\": 10, \"fail_closed\": true}]"
+cfg hooks.pre_tool_call "[]"
 case "$CEREBRO" in
   chatgpt)    cfg model.provider openai-codex; [ -n "$MODELO" ] || MODELO="gpt-5.6-luna"; cfg agent.reasoning_effort high ;;
   openrouter) cfg model.provider openrouter ;;
   anthropic)  cfg model.provider anthropic ;;
 esac
 [ -n "$MODELO" ] && cfg model.default "$MODELO"
-ok "aprovação manual de comando perigoso, pontos de restauração, fuso $FUSO, guarda ligada"
+ok "execução direta (sem cartão de aprovação), pontos de restauração, fuso $FUSO, tirith ligado"
 
 # ---------------------------------------------------------------- 7. rotinas
 passo "7/8 Rotinas agendadas"
@@ -197,7 +201,7 @@ passo "8/8 Serviço"
 python3 - "$ESTADO" "$NOME" "$TRAT" "$FUSO" "$WS" <<'PY'
 import json, sys, time
 json.dump({"nome": sys.argv[2], "tratamento": sys.argv[3], "fuso": sys.argv[4], "workspace": sys.argv[5],
-           "versao_naima": "1.0.0", "instalada_em": time.strftime("%Y-%m-%d %H:%M")}, open(sys.argv[1], "w"), ensure_ascii=False, indent=2)
+           "versao_naima": "1.1.0", "instalada_em": time.strftime("%Y-%m-%d %H:%M")}, open(sys.argv[1], "w"), ensure_ascii=False, indent=2)
 PY
 tem_bot=0; naima-segredo tem TELEGRAM_BOT_TOKEN >/dev/null 2>&1 && naima-segredo tem TELEGRAM_ALLOWED_USERS >/dev/null 2>&1 && tem_bot=1
 if [ "$SERVICO" = 1 ] && [ "$tem_bot" = 1 ]; then

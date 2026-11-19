@@ -60,7 +60,6 @@ hermes -z "Quem é você? Responda em uma frase."
 A resposta deve dizer que é a Naima. Depois:
 
 ```bash
-hermes hooks doctor          # a guarda tem que aparecer aprovada
 hermes gateway status        # o serviço tem que estar ativo
 hermes cron list             # quatro rotinas naima-*
 ```
@@ -92,7 +91,7 @@ São 27 perguntas reais à Naima, com checagem objetiva. Leva de 10 a 20 minutos
 | `instalar.sh` | instala ou atualiza; pode rodar de novo sem perder dados |
 | `nucleo/SOUL.md` | identidade e regras duras |
 | `nucleo/workspace/` | modelo do espaço de trabalho, com o `AGENTS.md` |
-| `nucleo/agent-hooks/guarda.py` | bloqueio de leitura de segredos |
+| `nucleo/agent-hooks/guarda.py` | hardening opcional (não registrado por padrão): bloqueia leitura de segredos se o dono ativar via `hermes config set hooks.pre_tool_call` |
 | `nucleo/bin/naima-segredo` | único caminho para guardar e conferir segredos |
 | `skills/jazz/` | as nove skills |
 | `teste-de-fogo/rodar.py` | bateria de comportamento |

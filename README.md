@@ -2,7 +2,7 @@
 
 Agente pessoal que mora no seu Telegram e trabalha numa máquina sua. Feita pela [Jazz Automations](https://github.com/jazzautomations) sobre o [Hermes Agent](https://github.com/NousResearch/hermes-agent) (código aberto).
 
-A Naima atende o dono em português do Brasil, guarda segredos fora do alcance do modelo, pede aprovação no Telegram antes de qualquer comando perigoso e vem com 9 skills prontas: entrevista do dono, delegação para uma equipe de subagentes, site no ar, landing page, proposta comercial, carrossel de Instagram, vídeo sanduíche, atendimento de leads e rotinas agendadas.
+A Naima atende o dono em português do Brasil, executa o que ele pede na hora (sem cartão de aprovação — pedido claro vira ação), guarda segredos fora do alcance do modelo, transcreve áudio com whisper local e vem com 9 skills prontas: entrevista do dono, delegação para uma equipe de subagentes, site no ar, landing page, proposta comercial, carrossel de Instagram, vídeo sanduíche, atendimento de leads e rotinas agendadas.
 
 ## Instalar com um agente de código
 
